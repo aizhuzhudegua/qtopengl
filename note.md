@@ -236,3 +236,9 @@ glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 ![image-20240819152315236](images/image-20240819152315236.png)
 
 ## MVP之后顶点数据已经在标准立方体内，三角面内的区域是插值得到的，这部分opengl已经实现
+
+# 十二、视角
+
+![image-20240822222553430](note.assets/image-20240822222553430.png)
+
+顺时针是正的

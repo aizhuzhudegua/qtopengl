@@ -25,6 +25,8 @@ protected:
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
     void keyPressEvent(QKeyEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent* event);
 
 public slots:
     void onTimeout();
@@ -47,6 +49,12 @@ private:
     QVector3D cameraTarget;
     QVector3D cameraFront;
 
+    QVector3D up;
+    float deltaTime;
+    float lastFrame;
+    QPoint deltaPos;
+
+    float fov;
 
 
 signals:

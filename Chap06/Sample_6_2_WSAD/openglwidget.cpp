@@ -1,14 +1,25 @@
  #include "openglwidget.h"
 
+#define TIMEOUTMSFC 100
+#define PI 3.1415926
+
 OpenGlWidget::OpenGlWidget(QWidget *parent) : QOpenGLWidget(parent),QOpenGLFunctions_4_5_Core()
 {
     setFocusPolicy(Qt::StrongFocus);
+    setMouseTracking(true);
+
     connect(&timer,SIGNAL(timeout()),
             this,SLOT(onTimeout()));
-    timer.start(1000/120);
+    timer.start(TIMEOUTMSFC);
     m_time.start();
     cameraFront = QVector3D(0.0,0.0,-1.0);
 
+    cameraPos = QVector3D(0.0f,0.0f,3.0f);
+    up = QVector3D(0.0f ,1.0f, 0.0f);
+    cameraRight = QVector3D::crossProduct(up,cameraFront);
+    cameraRight.normalize();
+    lastFrame = 0;
+    fov = 45;
 }
 
 
@@ -175,12 +186,12 @@ void OpenGlWidget::initializeGL()
 
     // 线框模式
     // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    QMatrix4x4 projection;
-    projection.perspective(45,(float)width()/height(),0.1,100);
+
 
     shaderProgram.bind();
-    shaderProgram.setUniformValue("projection",projection);
 
+
+    shaderProgram.setUniformValue("ratio",ratio);
 }
 
 void OpenGlWidget::resizeGL(int w, int h)
@@ -196,28 +207,18 @@ void OpenGlWidget::paintGL()
 
     QMatrix4x4 model;
     QMatrix4x4 view;
-
-    float time = m_time.elapsed() / 1000.0;
-    const float distance = 10.0f;
-    float camX = sin(time) * distance;
-    float camZ = cos(time) * distance;
+    QMatrix4x4 projection;
+    projection.perspective(fov,(float)width()/height(),0.1,100);
+//    float time = m_time.elapsed() / 1000.0;
+//    const float distance = 10.0f;
+//    float camX = sin(time) * distance;
+//    float camZ = cos(time) * distance;
 
     // 这里相当于相机的位置在 （0，0，3）
     // view.translate(0.0,0.0,-3);
 
     // QVector3D up = QVector3D(0.0f,1.0f,0.0f);
 
-
-    cameraPos = QVector3D(0.0f,0.0f,3.0f);
-    cameraTarget = QVector3D(0.0f,0.0f,0.0f);
-    cameraDirection = QVector3D(cameraPos - cameraTarget);
-    cameraDirection.normalize();
-
-    QVector3D up = QVector3D(0.0f ,1.0f, 0.0f);
-    cameraRight = QVector3D::crossProduct(up,cameraDirection);
-    cameraRight.normalize();
-    cameraUp = QVector3D::crossProduct(cameraDirection,cameraRight);
-    cameraUp.normalize();
 
 //    QMatrix4x4 trans;
 //    trans.translate(QVector3D(-cameraPos.x(),-cameraPos.y(),-cameraPos.z()));
@@ -240,6 +241,7 @@ void OpenGlWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BITS);
 
     shaderProgram.bind();
+    shaderProgram.setUniformValue("projection",projection);
     shaderProgram.setUniformValue("view",view);
     glBindVertexArray(VAO);
     // glDrawArrays(GL_TRIANGLES,0,6);
@@ -267,7 +269,7 @@ void OpenGlWidget::paintGL()
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 
 //            glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
-            angle += 10 / (1000/120);
+
             foreach(auto item,cubePositions)
             {
                  model.setToIdentity();
@@ -295,20 +297,48 @@ void OpenGlWidget::paintGL()
 
 void OpenGlWidget::keyPressEvent(QKeyEvent *event)
 {
+    float cameraSpeed = 2.5*TIMEOUTMSFC/1000.0;
 
     switch(event->key()){
         case Qt::Key_Up:
         {
-            qDebug() << "Key_Up";
+
             ratio+=0.1;
             break;
         }
         case Qt::Key_Down:
         {
-            qDebug() << "Key_Down";
+
             ratio-=0.1;
             break;
         }
+        case Qt::Key_W:
+        {
+
+            cameraPos+=cameraFront * cameraSpeed;
+            break;
+        }
+
+        case Qt::Key_S:
+        {
+
+            cameraPos-=cameraFront * cameraSpeed;
+            break;
+        }
+
+        case Qt::Key_A:
+        {
+
+            cameraPos+=cameraRight * cameraSpeed;
+            break;
+        }
+
+        case Qt::Key_D:
+        {
+            cameraPos-=cameraRight * cameraSpeed;
+            break;
+        }
+
 
     }
     if(ratio > 1 )ratio = 1;
@@ -321,7 +351,39 @@ void OpenGlWidget::keyPressEvent(QKeyEvent *event)
     update();
 }
 
+void OpenGlWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    static float yaw=-90;
+    static float pitch = 0;
+    static QPoint lastPos(width()/2.0,height()/2.0);
+    auto currentPos = event->pos();
+    deltaPos = currentPos-lastPos;
+    lastPos = currentPos;
+    float sensitivity = 0.1f;
+    deltaPos*=sensitivity;
+    yaw += deltaPos.x();
+    pitch -= deltaPos.y();
+
+    if(pitch > 89.0f) pitch = 89.0f;
+    if(pitch < -89.0f) pitch = -89.0f;
+    cameraFront.setX(cos(yaw*PI/180)* cos(pitch*PI/180));
+    cameraFront.setY(sin(pitch*PI/180));
+    cameraFront.setZ(sin(yaw*PI/180)* cos(pitch*PI/180));
+    cameraFront.normalize();
+    update();
+
+}
+
+void OpenGlWidget::wheelEvent(QWheelEvent *event)
+{
+    if(fov >= 1.0f && fov <= 75.0f)
+        fov-= event->angleDelta().y()/120;
+    if(fov <= 1.0f) fov = 1.0f;
+    if(fov >= 75.0f) fov = 75.0f;
+}
+
 void OpenGlWidget::onTimeout()
 {
+
     update();
 }
