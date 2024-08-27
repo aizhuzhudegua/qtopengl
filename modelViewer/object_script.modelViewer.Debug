@@ -1,0 +1,16 @@
+debug/behaviour.o
+debug/component.o
+debug/gameobject.o
+debug/light.o
+debug/main.o
+debug/mainwindow.o
+debug/material.o
+debug/mesh.o
+debug/object.o
+debug/openglwidget.o
+debug/shader.o
+debug/texture.o
+debug/qrc_res.o
+debug/moc_mainwindow.o
+debug/moc_object.o
+debug/moc_openglwidget.o

@@ -1,0 +1,16 @@
+release/behaviour.o
+release/component.o
+release/gameobject.o
+release/light.o
+release/main.o
+release/mainwindow.o
+release/material.o
+release/mesh.o
+release/object.o
+release/openglwidget.o
+release/shader.o
+release/texture.o
+release/qrc_res.o
+release/moc_mainwindow.o
+release/moc_object.o
+release/moc_openglwidget.o

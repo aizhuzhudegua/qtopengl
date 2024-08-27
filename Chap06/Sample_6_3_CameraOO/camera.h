@@ -94,7 +94,7 @@ public:
     void ProcessMouseScroll(float angle)
     {
         if(Zoom >= 1.0f && Zoom <= 75.0f)
-            Zoom-= angle/120;
+            Zoom-= angle;
         if(Zoom <= 1.0f) Zoom = 1.0f;
         if(Zoom >= 75.0f) Zoom = 75.0f;
     }

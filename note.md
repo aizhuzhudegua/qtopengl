@@ -242,3 +242,7 @@ glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 ![image-20240822222553430](note.assets/image-20240822222553430.png)
 
 顺时针是正的
+
+# 十三、Normal Matrix
+
+法线矩阵(Normal Matrix)，它使用了一些线性代数的操作来移除对法向量错误缩放的影响。如果你想知道这个矩阵是如何计算出来的，建议去阅读这个[文章](http://www.lighthouse3d.com/tutorials/glsl-tutorial/the-normal-matrix/)。
