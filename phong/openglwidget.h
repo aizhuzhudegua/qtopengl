@@ -21,6 +21,8 @@ public:
     void drawShape(Shape Shape);
     void setWireFrame(bool mode);
 
+
+
 // QOpenGLWidget类需要重载三个函数
 protected:
     virtual void initializeGL();

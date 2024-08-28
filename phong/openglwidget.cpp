@@ -93,6 +93,8 @@ unsigned int indices[] = {
     0,2,3
 };
 
+
+
 OpenGlWidget::~OpenGlWidget()
 {
     makeCurrent();
@@ -124,6 +126,8 @@ void OpenGlWidget::setWireFrame(bool mode)
     update();
     doneCurrent();
 }
+
+
 
 void OpenGlWidget::initializeGL()
 {

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+F:/assimp-5.1.6/tools/assimp_cmd/assimp_cmd.rc
+resource.h
+F:/assimp-5.1.6/tools/assimp_cmd/resource.h
+../../revision.h
+F:/assimp-5.1.6/revision.h
+windows.h
+F:/assimp-5.1.6/tools/assimp_cmd/windows.h
+
+F:/assimp-5.1.6/tools/assimp_cmd/resource.h
+
+revision.h
+

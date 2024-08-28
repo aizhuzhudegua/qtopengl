@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/shaders">
+        <file>shaders/fragment_shader.frag</file>
+        <file>shaders/vertex_shader.vert</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>images/diffuse_map.png</file>
+        <file>images/emissions_map.jpg</file>
+        <file>images/specular_map.png</file>
+        <file>images/specular_map_color.png</file>
+        <file>images/wall.jpg</file>
+        <file>images/grass.png</file>
+        <file>images/blending_transparent_window.png</file>
+    </qresource>
+</RCC>

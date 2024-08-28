@@ -1,0 +1,1 @@
+  -L"F:/assimp-5.1.6/build"  -L/lib  ../lib/libassimp.dll.a ../contrib/zlib/libzlibstatic.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

@@ -246,3 +246,21 @@ glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
 # 十三、Normal Matrix
 
 法线矩阵(Normal Matrix)，它使用了一些线性代数的操作来移除对法向量错误缩放的影响。如果你想知道这个矩阵是如何计算出来的，建议去阅读这个[文章](http://www.lighthouse3d.com/tutorials/glsl-tutorial/the-normal-matrix/)。
+
+# 十四、模型加载
+
+![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/4dd59723a9b76063cf326b7e35cc8b9a.png)
+
+## 编译assimp-5.1.6
+
+https://github.com/assimp/assimp/releases/tag/v5.1.6
+
+https://blog.csdn.net/weixin_44518102/article/details/125436218
+
+![image-20240827185413523](note.assets/image-20240827185413523.png)
+
+- qt 5.14.2 使用qt的mingw32-make
+
+## 案例
+
+https://gitee.com/gitee-a/open-gl-qtlearn.git
