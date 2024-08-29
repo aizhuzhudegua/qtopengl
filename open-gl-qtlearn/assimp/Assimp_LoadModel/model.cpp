@@ -96,6 +96,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     }
 
     // 处理材质
+    qDebug() << "mMaterialIndex: " << mesh->mMaterialIndex;
     if(mesh->mMaterialIndex >= 0) {
         aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
